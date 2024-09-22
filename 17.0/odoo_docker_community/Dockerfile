@@ -129,7 +129,8 @@ USER odoo
 RUN python3 -m venv /opt/odoo/venv \
     && /opt/odoo/venv/bin/python -m pip install -r /opt/odoo/src/OCB/requirements.txt \
     && /opt/odoo/venv/bin/python -m pip install psycopg2-binary \
-    && /opt/odoo/venv/bin/python -m pip install watchdog ipdb debugpy
+    && /opt/odoo/venv/bin/python -m pip install watchdog ipdb debugpy \
+    && /opt/odoo/venv/bin/python -m pip install pysftp pdfminer.six phonenumbers qrcode slugify vobject
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["odoo"]
