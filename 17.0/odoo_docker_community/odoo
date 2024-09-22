@@ -1,0 +1,3 @@
+#!/bin/bash
+
+/opt/odoo/venv/bin/python /opt/odoo/src/OCB/odoo-bin --config=/etc/odoo/odoo.conf --dev=all
