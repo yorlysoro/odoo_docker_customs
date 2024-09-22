@@ -112,8 +112,10 @@ RUN chown odoo /etc/odoo/odoo.conf \
     && mkdir -p /var/lib/odoo \
     && chown -R odoo /var/lib/odoo \
     && mkdir -p /mnt/lms-addons \
-    && chown -R odoo /mnt/lms-addons
-VOLUME ["/var/lib/odoo", "/mnt/oca-addons", "/mnt/custom-addons", "/mnt/third-party-addons", "/mnt/lms-addons"]
+    && chown -R odoo /mnt/lms-addons \
+    && mkdir -p /mnt/enterprise-addons \
+    && chown -R odoo /mnt/enterprise-addons
+VOLUME ["/var/lib/odoo", "/mnt/oca-addons", "/mnt/custom-addons", "/mnt/third-party-addons", "/mnt/lms-addons", "/mnt/enterprise-addons"]
 
 # Expose Odoo services
 EXPOSE 8069 8071 8072 8073 5678
