@@ -130,7 +130,8 @@ USER odoo
 
 RUN python3 -m venv /opt/odoo/venv \
     && /opt/odoo/venv/bin/python -m pip install -r /opt/odoo/src/OCB/requirements.txt \
-    && /opt/odoo/venv/bin/python -m pip install psycopg2-binary
+    && /opt/odoo/venv/bin/python -m pip install psycopg2-binary \
+    && /opt/odoo/venv/bin/python -m pip install debugpy
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["odoo"]
