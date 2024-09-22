@@ -15,6 +15,7 @@ services:
       - ../oca_addons:/mnt/oca-addons
       - ../third_party:/mnt/third-party-addons
       - ../LMS:/mnt/lms-addons
+      - ../enterprise:/mnt/enterprise-addons
     environment:
       - PYTHONUNBUFFERED=0
     restart: always
