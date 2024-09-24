@@ -16,7 +16,7 @@ services:
       - ../third_party:/var/opt/src/third_party
     environment:
       - PYTHONUNBUFFERED=0
-    restart: always
+    #restart: always
     networks:
       - postgres_bd
   db:
@@ -31,7 +31,7 @@ services:
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
       - odoo-db:/var/lib/postgresql/data/pgdata
-    restart: always
+    #restart: always
     networks:
       - postgres_bd
   pgadmin:
@@ -48,7 +48,7 @@ services:
 
     ports:
       - "8080:80"    
-    restart: unless-stopped
+    #restart: unless-stopped
 
 networks:
   postgres_bd:
