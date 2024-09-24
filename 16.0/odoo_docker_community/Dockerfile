@@ -84,14 +84,14 @@ odoo
 ENV ODOO_VERSION 16.0
 RUN mkdir -p /opt/odoo \
     && chown odoo -R /opt/odoo \
-    && mkdir -p /opt/odoo/src \
-    && chown odoo -R /opt/odoo/src 
-RUN git clone --depth 1 --branch $ODOO_VERSION --single-branch https://github.com/OCA/OCB.git /opt/odoo/src/OCB
+    && mkdir -p /var/opt/src/ \
+    && chown odoo -R /var/opt/src/ 
+RUN git clone --depth 1 --branch $ODOO_VERSION --single-branch https://github.com/OCA/OCB.git /var/opt/src/OCB
 
 COPY odoo /bin/odoo
 RUN chown odoo -R /bin/odoo
-RUN chown odoo -R /opt/odoo/src/OCB/odoo-bin
-RUN chmod +x /opt/odoo/src/OCB/odoo-bin
+RUN chown odoo -R /var/opt/src/OCB/odoo-bin
+RUN chmod +x /var/opt/src/OCB/odoo-bin
 RUN chmod +x /bin/odoo
 
 # Copy entrypoint script and Odoo configuration file
@@ -103,17 +103,15 @@ RUN chmod +x entrypoint.sh
 
 # Set permissions and Mount /var/lib/odoo to allow restoring filestore and /mnt/extra-addons for users addons
 RUN chown odoo /etc/odoo/odoo.conf \
-    && mkdir -p /mnt/oca-addons \
-    && chown -R odoo /mnt/oca-addons \
-    && mkdir -p /mnt/custom-addons \
-    && chown -R odoo /mnt/custom-addons \
-    && mkdir -p /mnt/third-party-addons \
-    && chown -R odoo /mnt/third-party-addons \
+    && mkdir -p /var/opt/src/oca_addons \
+    && chown -R odoo /var/opt/src/oca_addons \
+    && mkdir -p /var/opt/src/custom_addons \
+    && chown -R odoo /var/opt/src/custom_addons \
+    && mkdir -p /var/opt/src/third_party \
+    && chown -R odoo /var/opt/src/third_party \
     && mkdir -p /var/lib/odoo \
-    && chown -R odoo /var/lib/odoo \
-    && mkdir -p /mnt/lms-addons \
-    && chown -R odoo /mnt/lms-addons
-VOLUME ["/var/lib/odoo", "/mnt/oca-addons", "/mnt/custom-addons", "/mnt/third-party-addons", "/mnt/lms-addons"]
+    && chown -R odoo /var/lib/odoo 
+VOLUME ["/var/lib/odoo", "/var/opt/src/oca_addons", "/var/opt/src/custom_addons", "/var/opt/src/third_party"]
 
 # Expose Odoo services
 EXPOSE 8069 8071 8072 8073 5678
@@ -129,7 +127,7 @@ RUN chmod +x /usr/local/bin/wait-for-psql.py
 USER odoo
 
 RUN python3 -m venv /opt/odoo/venv \
-    && /opt/odoo/venv/bin/python -m pip install -r /opt/odoo/src/OCB/requirements.txt \
+    && /opt/odoo/venv/bin/python -m pip install -r /var/opt/src/OCB/requirements.txt \
     && /opt/odoo/venv/bin/python -m pip install psycopg2-binary \
     && /opt/odoo/venv/bin/python -m pip install watchdog ipdb debugpy \
     && /opt/odoo/venv/bin/python -m pip install pysftp pdfminer.six phonenumbers qrcode slugify vobject

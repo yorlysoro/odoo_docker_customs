@@ -11,10 +11,9 @@ services:
     volumes:
       - odoo-web:/var/lib/odoo
       - ./config:/etc/odoo
-      - ../custom_addons:/mnt/custom-addons
-      - ../oca_addons:/mnt/oca-addons
-      - ../third_party:/mnt/third-party-addons
-      - ../LMS:/mnt/lms-addons
+      - ../custom_addons:/var/opt/src/custom_addons
+      - ../oca_addons:/var/opt/src/oca_addons
+      - ../third_party:/var/opt/src/third_party
     environment:
       - PYTHONUNBUFFERED=0
     restart: always

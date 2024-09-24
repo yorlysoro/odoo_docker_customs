@@ -1,8 +1,8 @@
 services:
-  odoo16-community:
+  odoo16-enterprise:
     build:
       context: .
-    container_name: odoo16-community
+    container_name: odoo16-enterprise
     depends_on:
       - db
     ports:
@@ -11,11 +11,10 @@ services:
     volumes:
       - odoo-web:/var/lib/odoo
       - ./config:/etc/odoo
-      - ../custom_addons:/mnt/custom-addons
-      - ../oca_addons:/mnt/oca-addons
-      - ../third_party:/mnt/third-party-addons
-      - ../LMS:/mnt/lms-addons
-      - ../enterprise:/mnt/enterprise-addons
+      - ../custom_addons:/var/opt/src/custom_addons
+      - ../oca_addons:/var/opt/src/oca_addons
+      - ../third_party:/var/opt/src/third_party
+      - ../enterprise:/var/opt/src/enterprise
     environment:
       - PYTHONUNBUFFERED=0
     restart: always
