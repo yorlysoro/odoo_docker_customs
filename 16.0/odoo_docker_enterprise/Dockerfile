@@ -36,6 +36,9 @@ RUN apt-get update && \
         python3-watchdog \
         python3-xlrd \
         python3-xlwt \
+        pkg-config \
+        cmake \
+        libcairo2-dev \
         xz-utils && \
     curl -o wkhtmltox.deb -sSL https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.jammy_amd64.deb \
     && apt-get install -y --no-install-recommends ./wkhtmltox.deb \
@@ -131,7 +134,8 @@ RUN python3 -m venv /opt/odoo/venv \
     && /opt/odoo/venv/bin/python -m pip install -r /var/opt/src/OCB/requirements.txt \
     && /opt/odoo/venv/bin/python -m pip install psycopg2-binary \
     && /opt/odoo/venv/bin/python -m pip install watchdog ipdb debugpy \
-    && /opt/odoo/venv/bin/python -m pip install pysftp pdfminer.six phonenumbers qrcode slugify vobject
+    && /opt/odoo/venv/bin/python -m pip install pysftp pdfminer.six phonenumbers qrcode slugify vobject \
+    && /opt/odoo/venv/bin/python -m pip install rlPyCairo
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["odoo"]
