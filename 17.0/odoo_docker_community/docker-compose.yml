@@ -1,5 +1,5 @@
 services:
-  community:
+  odoo17-community:
     build:
       context: .
     container_name: odoo17-community
