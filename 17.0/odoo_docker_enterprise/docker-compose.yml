@@ -1,5 +1,5 @@
 services:
-  enterprise:
+  odoo17-enterprise:
     build:
       context: .
     container_name: odoo17-enterprise
