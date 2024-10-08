@@ -1,0 +1,59 @@
+services:
+  odoo18-community:
+    build:
+      context: .
+    container_name: odoo18-community
+    depends_on:
+      - db
+    ports:
+      - "16000:8069"
+      - "30000:5678"
+    volumes:
+      - odoo-web:/var/lib/odoo
+      - ./config:/etc/odoo
+      - ../custom_addons:/var/opt/src/custom_addons
+      - ../oca_addons:/var/opt/src/oca_addons
+      - ../third_party:/var/opt/src/third_party
+    environment:
+      - PYTHONUNBUFFERED=0
+    restart: always
+    networks:
+      - postgres_bd
+  db:
+    image: postgres:16
+    container_name: db
+    ports:
+      - "19000:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=odoo
+      - POSTGRES_USER=odoo
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - odoo-db:/var/lib/postgresql/data/pgdata
+    restart: always
+    networks:
+      - postgres_bd
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: jdap.dmc@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: odoo
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    networks:
+      - postgres_bd
+    volumes:
+        - pgadmin:/root/.pgadmin
+
+    ports:
+      - "8080:80"    
+    restart: unless-stopped
+
+networks:
+  postgres_bd:
+
+volumes:
+  odoo-web:
+  odoo-db:
+  pgadmin:
