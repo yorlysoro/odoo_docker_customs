@@ -129,6 +129,17 @@ RUN chmod +x /usr/local/bin/wait-for-psql.py
 RUN chown odoo:odoo -R /opt/odoo
 RUN chmod -R u+rwx /opt/odoo
 
+# Install Miniconda and create Python 3.11 environment recommended for Odoo 19.0
+RUN curl -fsSL https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o /tmp/miniconda.sh \
+    && bash /tmp/miniconda.sh -b -p /opt/conda \
+    && rm -f /tmp/miniconda.sh \
+    && /opt/conda/bin/conda init \
+    && /opt/conda/bin/conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main \
+    && /opt/conda/bin/conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r \
+    && /opt/conda/bin/conda create -y -p /opt/conda/envs/odoo311 python=3.11 \
+    && /opt/conda/bin/conda clean -afy \
+    && chown -R odoo:odoo /opt/conda
+
 # Set default user when running the container
 USER odoo
 
