@@ -2,4 +2,4 @@
 
 export GEVENT_SUPPORT=True
 
-/opt/odoo/venv/bin/python -m debugpy --wait-for-client --listen 0.0.0.0:5678 /var/opt/src/odoo/odoo-bin --config=/etc/odoo/odoo.conf
+/opt/conda/envs/odoo311/bin/python -m debugpy --wait-for-client --listen 0.0.0.0:5678 /var/opt/src/odoo/odoo-bin --config=/etc/odoo/odoo.conf
