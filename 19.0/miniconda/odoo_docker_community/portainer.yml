@@ -1,0 +1,63 @@
+services:
+  odoo19-community:
+    image: odoo-custom:v19
+    container_name: odoo19-community
+    depends_on:
+      - db19
+    ports:
+      - "16003:8069"
+      - "30003:5678"
+      - "50051:50051"
+      - "30000:5678"
+    extra_hosts:
+      - "localhost:host-gateway" # Permite que el contenedor vea el localhost del host
+    volumes:
+      - odoo-web19:/var/lib/odoo
+      - /home/yorlys/sources/odoo19/odoo_docker_community/config/odoo.conf:/etc/odoo/odoo.conf
+      - /home/yorlys/sources/odoo19/custom_addons:/var/opt/src/custom_addons
+      - /home/yorlys/sources/odoo19/oca_addons:/var/opt/src/oca_addons
+      - /home/yorlys/sources/odoo19/third_party:/var/opt/src/third_party
+    environment:
+      - PYTHONUNBUFFERED=0
+    restart: always
+    networks:
+      - postgres_bd
+  db19:
+    image: postgres:17
+    container_name: db19
+    ports:
+      - "19003:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=odoo
+      - POSTGRES_USER=odoo
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - odoo-db19:/var/lib/postgresql/data/pgdata
+      - /home/yorlys/sources/odoo19/odoo_docker_community/config/postgresql.conf:/etc/postgresql/postgresql.conf # Montamos el config
+    restart: always
+    networks:
+      - postgres_bd
+  pgadmin19:
+    container_name: pgadmin19
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: jdap.dmc@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: odoo
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    networks:
+      - postgres_bd
+    volumes:
+      - pgadmin19:/root/.pgadmin
+
+    ports:
+      - "8082:80"
+    restart: unless-stopped
+
+networks:
+  postgres_bd:
+
+volumes:
+  odoo-web19:
+  odoo-db19:
+  pgadmin19:
