@@ -1,7 +1,8 @@
 services:
   odoo18-community:
     build:
-      context: .
+      context: . # delete if use portainer customs
+    image: odoo-custom:v19 # tag or name for portainer custom images
     container_name: odoo18-community
     depends_on:
       - db18
